@@ -1,0 +1,35 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/green</item>
+        <item name="colorPrimaryDark">@color/greenDark</item>
+        <item name="android:colorPressedHighlight">@color/greenLight</item>
+        <item name="colorAccent">@color/goldDark</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="itemTextColor">@color/black</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.ActionBar"/>
+
+    <style name="DarkTheme" parent="Theme.AppCompat.DayNight.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="colorPrimary">@color/greenDark</item>
+        <item name="colorPrimaryDark">@color/black</item>
+        <item name="android:colorPressedHighlight">#00b248</item>
+        <item name="colorAccent">@color/gold</item>
+        <item name="colorSecondary">@color/gold</item>
+        <item name="android:colorBackground">@color/dark</item>
+        <item name="android:itemBackground">@color/dark_</item>
+        <item name="android:textColor">@color/greenLight</item>
+        <item name="itemTextColor">@color/green</item>
+    </style>
+</resources>

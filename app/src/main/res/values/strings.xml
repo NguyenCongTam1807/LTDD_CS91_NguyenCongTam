@@ -1,0 +1,49 @@
+<resources>
+    <string name="app_name" translatable="false">Background Remover</string>
+    <string name="action_remove_bg">REMOVE BACKGROUND</string>
+    <string name="action_choose_image">CHOOSE IMAGE</string>
+    <string name="action_capture_image">CAPTURE IMAGE</string>
+    <string name="instruction">Image with its background removed\nwill be displayed here</string>
+    <string name="message_tap_to_choose_image">Tap to choose image</string>
+    <string name="error_no_image_selected">No image selected or file corrupted</string>
+    <string name="title_permission">Permission</string>
+    <string name="message_permission">To save processed image, we need access to your external storage</string>
+    <string name="action_ok" translatable="false">OK</string>
+    <string name="error_permission">Can\'t process image without storage permission</string>
+    <string name="title_error">Error</string>
+    <string name="status_compressing">Compressing…</string>
+    <string name="status_uploading">Uploading…</string>
+    <string name="image">Image: %s</string>
+    <string name="original_size">Original size: %d KB</string>
+    <string name="compressed_size">Compressed size: %d KB"</string>
+    <string name="status_processing">Processing…</string>
+    <string name="error_output_not_saved">No output image</string>
+    <string name="detail_tool_text">Image : a.jpg\nOriginal size : 1 KB</string>
+    <string name="img_saved">Image %s saved successfully</string>
+    <string name="settings">Settings</string>
+    <string name="settings_language">Language</string>
+    <string name="language_vi">Vi</string>
+    <string name="language_en">En</string>
+    <string name="settings_theme">Theme</string>
+    <string name="settings_folder_mode">Categorize photos into folders</string>
+    <string name="about">About</string>
+    <string name="logo_description">Background remover\'s logo</string>
+    <string name="text_about">
+        \n ● Background remover is an app, as its name implies, has the main use for removing the background
+        from foregrounds in images. Built by Nguyen Cong Tam, a computer science student in the DH19CS02 class,
+        as the project for the thesis, which every 3rd year student in their 3rd semester should finish.
+        The project started and was finished during the 3rd semester of the academic year 2020-2021, Open University
+        of Ho Chi Minh City.\n\n
+        ● Background remover uses Remove.bg API for the background removing task, with polished UI and additional
+        features. The app serves as the basis for the Open University\'s scientific research contest and thus will
+        be updated regularly until the contest\'s deadline \n\n
+        ● The period when I dig myself in my room completing this app is responsible for rising my fascination on both
+        the mobile and AI industries.\n\n
+        ● Nguyen Cong Tam. Student ID: 1951012112. November 8th, 2021
+    </string>
+    <string name="bt_view">View</string>
+    <string name="bt_share">Share</string>
+    <string name="bt_ok">Cancel</string>
+    <string name="tv_removed">Image\'s background had been removed, no need to process anymore</string>
+    <string name="tv_compressed">Image had been compressed, skip to the background removal phase</string>
+</resources>
