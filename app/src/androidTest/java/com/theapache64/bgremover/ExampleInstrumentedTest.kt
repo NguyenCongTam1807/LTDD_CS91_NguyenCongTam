@@ -1,4 +1,4 @@
-package com.theapache64.removebgexample
+package com.theapache64.bgremover
 
 import androidx.test.InstrumentationRegistry
 import androidx.test.runner.AndroidJUnit4

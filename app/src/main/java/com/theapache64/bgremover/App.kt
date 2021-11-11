@@ -1,4 +1,4 @@
-package com.theapache64.removebgexample
+package com.theapache64.bgremover
 
 import android.app.Application
 import com.theapache64.removebg.RemoveBg

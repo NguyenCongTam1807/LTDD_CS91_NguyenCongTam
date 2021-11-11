@@ -3,22 +3,22 @@ apply plugin: 'kotlin-android'
 
 ext {
     bintrayRepo = 'maven'
-    bintrayName = 'removebg'
+    bintrayName = 'bgremover'
 
-    publishedGroupId = 'com.theapache64.removebg'
-    libraryName = 'removebg'
-    artifact = 'removebg'
+    publishedGroupId = 'com.theapache64.bgremover'
+    libraryName = 'bgremover'
+    artifact = 'bgremover'
 
     libraryDescription = 'Background remover is a free app to remove the background of any photo. It works 100% automatically: You don\'t have to manually select the background/foreground layers to separate them - just select your image and instantly download the result image with the background removed!'
 
-    siteUrl = 'https://github.com/theapache64/remove-bg'
-    gitUrl = 'https://github.com/theapache64/remove-bg.git'
+    siteUrl = 'https://github.com/NguyenCongTam1807/Background-remover'
+    gitUrl = 'https://github.com/NguyenCongTam1807/Background-remover.git'
 
     libraryVersion = library_version_name
 
-    developerId = 'theapache64'
-    developerName = 'theapache64'
-    developerEmail = 'theapache64@gmail.com'
+    developerId = 'NguyenCongTam'
+    developerName = 'NguyenCongTam'
+    developerEmail = 'nctam180794@gmail.com'
 
     licenseName = 'The Apache Software License, Version 2.0'
     licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
@@ -31,8 +31,6 @@ android {
     defaultConfig {
         minSdkVersion min_sdk_version
         targetSdkVersion target_sdk_version
-        versionCode library_version_code
-        versionName library_version_name
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 

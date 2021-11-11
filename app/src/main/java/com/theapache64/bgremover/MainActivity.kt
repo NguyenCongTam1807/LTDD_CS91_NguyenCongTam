@@ -1,4 +1,4 @@
-package com.theapache64.removebgexample
+package com.theapache64.bgremover
 
 import android.Manifest
 import android.R.attr
@@ -42,7 +42,7 @@ import com.karumi.dexter.listener.single.CompositePermissionListener
 import com.karumi.dexter.listener.single.DialogOnDeniedPermissionListener
 import com.theapache64.removebg.RemoveBg
 import com.theapache64.removebg.utils.ErrorResponse
-import com.theapache64.removebgexample.preferences.AppPreferences
+import com.theapache64.bgremover.preferences.AppPreferences
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException

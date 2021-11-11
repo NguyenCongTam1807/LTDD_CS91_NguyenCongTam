@@ -1,4 +1,4 @@
-package com.theapache64.removebgexample.preferences
+package com.theapache64.bgremover.preferences
 
 import android.content.Context
 
