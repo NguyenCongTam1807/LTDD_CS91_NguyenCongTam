@@ -1,0 +1,27 @@
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+        <CheckBoxPreference
+            app:icon="@drawable/ic_folder"
+            app:key="folderMode"
+            app:title="@string/settings_folder_mode"
+            app:summaryOff="@string/summary_folder_mode_off"
+            app:summaryOn="@string/summary_folder_mode_on"/>
+
+        <EditTextPreference
+            app:icon="@drawable/ic_key"
+            app:key="apiKey"
+            app:useSimpleSummaryProvider="true"
+            app:title="@string/settings_api_key"
+            app:dialogTitle="@string/settings_api_key_title"
+            app:dialogMessage="@string/settings_api_key_message" />
+<PreferenceCategory>
+        <Preference
+            app:key="shortcut"
+            app:title="@string/bt_short_cut"
+            android:layout="@layout/rounded_button"
+            android:onClick="goToRemoveBg"
+            />
+</PreferenceCategory>
+
+</PreferenceScreen>

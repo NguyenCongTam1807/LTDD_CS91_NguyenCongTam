@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.BackgroundRemover" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/greenDark</item>
+        <item name="colorPrimaryDark">@color/black</item>
+        <item name="android:colorPressedHighlight">#00b248</item>
+        <item name="colorAccent">@color/gold</item>
+        <item name="colorSecondary">@color/gold</item>
+        <item name="android:colorBackground">@color/dark</item>
+        <item name="android:itemBackground">@color/dark_</item>
+        <item name="android:textColor">@color/greenLight</item>
+        <item name="itemTextColor">@color/green</item>
+        <item name="alertDialogTheme">@style/CustomAlertDialog</item>
+    </style>
+    <style name="ImagePicker" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/greenDark</item>
+        <item name="colorPrimaryDark">@color/black</item>
+        <item name="android:colorPressedHighlight">#00b248</item>
+        <item name="colorAccent">@color/gold</item>
+        <item name="colorSecondary">@color/gold</item>
+        <item name="android:colorBackground">@color/dark</item>
+        <item name="android:itemBackground">@color/dark_</item>
+        <item name="android:textColor">@color/greenLight</item>
+        <item name="itemTextColor">@color/green</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+    <style name="CustomAlertDialog" parent="Theme.AppCompat.DayNight.Dialog">
+        <item name="android:colorForeground">?attr/colorAccent</item>
+        <item name="actionMenuTextColor">?attr/colorAccent</item>
+    </style>
+</resources>

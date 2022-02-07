@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.AppCompatButton
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/resetButton"
+    android:text="@string/bt_short_cut"
+    android:background="@drawable/rounded_button"
+    android:layout_marginHorizontal="@dimen/fab_margin"
+    android:layout_gravity="center"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+</androidx.appcompat.widget.AppCompatButton>
