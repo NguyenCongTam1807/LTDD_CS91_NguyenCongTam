@@ -1,0 +1,1 @@
+This version of background remover is built using a more modern approach than the ver-1 one, though the core use cases still untouched
