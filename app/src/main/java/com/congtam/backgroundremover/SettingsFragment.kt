@@ -3,15 +3,11 @@ package com.congtam.backgroundremover
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
-import androidx.appcompat.widget.AppCompatButton
 import androidx.preference.*
 import com.congtam.backgroundremover.backend.RemoveBg
 
 
 class SettingsFragment : PreferenceFragmentCompat(){
-
-
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.root_preferences, rootKey)
 
@@ -22,7 +18,6 @@ class SettingsFragment : PreferenceFragmentCompat(){
 
         this.findPreference<CheckBoxPreference>("folderMode")?.setOnPreferenceChangeListener { _, newValue ->
             HomeFragment.folderMode = newValue as Boolean
-            Log.d("Settings",newValue.toString())
             true
         }
 

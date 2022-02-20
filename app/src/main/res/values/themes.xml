@@ -27,4 +27,8 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
+    <style name="CustomAlertDialog" parent="Theme.AppCompat.DayNight.Dialog">
+        <item name="android:colorForeground">?attr/colorAccent</item>
+        <item name="actionMenuTextColor">?attr/colorAccent</item>
+    </style>
 </resources>

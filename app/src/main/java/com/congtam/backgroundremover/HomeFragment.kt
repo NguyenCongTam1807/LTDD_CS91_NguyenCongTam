@@ -30,6 +30,7 @@ import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
+import androidx.preference.EditTextPreference
 import androidx.preference.PreferenceManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
@@ -79,6 +80,8 @@ class HomeFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
+        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
+        sharedPreferences.getString("apiKey",null)?.let { RemoveBg.init(it) }
     }
 
     override fun onCreateView(
@@ -86,13 +89,11 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
-
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         binding.bChooseImage.setOnClickListener {
             onChooseImageClicked()
         }
@@ -149,10 +150,9 @@ class HomeFragment : Fragment() {
                                         finalImage.length() / 1024
                                     )
                                 )
-
                                 // inputImage saved, now upload
                                 try {
-                                    //try-catch to see RemoveBg API key has been initialized
+                                    //try-catch to see if RemoveBg API key has been initialized
                                     RemoveBg.from(finalImage, object : RemoveBg.RemoveBgCallback {
                                         override fun onProcessing() {
                                             requireActivity().runOnUiThread {

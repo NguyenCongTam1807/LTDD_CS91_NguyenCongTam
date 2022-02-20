@@ -4,6 +4,7 @@
         <CheckBoxPreference
             app:icon="@drawable/ic_folder"
             app:key="folderMode"
+            app:defaultValue="false"
             app:title="@string/settings_folder_mode"
             app:summaryOff="@string/summary_folder_mode_off"
             app:summaryOn="@string/summary_folder_mode_on"/>
@@ -15,13 +16,13 @@
             app:title="@string/settings_api_key"
             app:dialogTitle="@string/settings_api_key_title"
             app:dialogMessage="@string/settings_api_key_message" />
-<PreferenceCategory>
-        <Preference
-            app:key="shortcut"
-            app:title="@string/bt_short_cut"
-            android:layout="@layout/rounded_button"
-            android:onClick="goToRemoveBg"
-            />
-</PreferenceCategory>
+        <PreferenceCategory>
+                <Preference
+                    app:key="shortcut"
+                    app:title="@string/bt_short_cut"
+                    android:layout="@layout/rounded_button"
+                    android:onClick="goToRemoveBg"
+                    />
+        </PreferenceCategory>
 
 </PreferenceScreen>

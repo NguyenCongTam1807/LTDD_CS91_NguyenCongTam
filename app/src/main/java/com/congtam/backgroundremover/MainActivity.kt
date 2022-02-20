@@ -5,7 +5,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupActionBarWithNavController
+import androidx.preference.EditTextPreference
 import androidx.preference.PreferenceManager
+import com.congtam.backgroundremover.backend.RemoveBg
 
 
 class MainActivity : AppCompatActivity() {
@@ -17,11 +19,6 @@ class MainActivity : AppCompatActivity() {
 
         navController = findNavController(R.id.nav_host_fragment)
         setupActionBarWithNavController(navController)
-        val settings = PreferenceManager.getDefaultSharedPreferences(applicationContext)
-        val darkTheme = settings.getBoolean("theme",false)
-        val theme = if (darkTheme) R.style.Theme_BackgroundRemoverDark
-        else  R.style.Theme_BackgroundRemover
-        setTheme(theme)
     }
 
     override fun onSupportNavigateUp(): Boolean {

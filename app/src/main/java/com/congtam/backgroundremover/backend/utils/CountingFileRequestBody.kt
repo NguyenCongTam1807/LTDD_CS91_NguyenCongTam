@@ -52,7 +52,7 @@ class CountingFileRequestBody(
     }
 
     companion object {
-        private const val SEGMENT_SIZE = 2048L // okio.Segment.SIZE
+        private const val SEGMENT_SIZE = 2048L // okio.Segment.SIZE = 2KB
     }
 
 }

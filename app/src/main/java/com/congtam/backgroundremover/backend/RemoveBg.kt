@@ -2,25 +2,27 @@ package com.congtam.backgroundremover.backend
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import androidx.core.content.ContentProviderCompat.requireContext
-import com.congtam.backgroundremover.R
+import androidx.preference.EditTextPreference
+import com.congtam.backgroundremover.SettingsFragment
 import com.congtam.backgroundremover.backend.utils.CountingFileRequestBody
 import com.congtam.backgroundremover.backend.utils.ErrorResponse
 import com.google.gson.GsonBuilder
 import okhttp3.*
 import java.io.File
 import java.io.IOException
+import android.R
+import android.app.PendingIntent.getActivity
+import android.content.Context
+import android.content.SharedPreferences
+import android.util.Log
+import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.preference.PreferenceManager
+
 
 object RemoveBg {
     private const val API_ENDPOINT = "https://api.remove.bg/v1.0/removebg"
-
     private var apiKey: String? = null
-    fun getApiKey():String {
-        return when (apiKey!=null){
-            true -> apiKey!!
-            false -> ""
-        }
-    }
+
     private val okHttpClient by lazy {
         OkHttpClient.Builder()
             .build()
@@ -83,12 +85,11 @@ object RemoveBg {
                 } else {
                     // error, parsing error.
                     val jsonResp = response.body()!!.string()
-                    val errorResp = gson.fromJson<ErrorResponse>(jsonResp, ErrorResponse::class.java)
+                    val errorResp = gson.fromJson(jsonResp, ErrorResponse::class.java)
                     callback.onError(errorResp.errors)
                 }
             }
         })
-
     }
 
     interface RemoveBgCallback {
