@@ -8,7 +8,8 @@
     <string name="message_tap_to_choose_image">Tap to choose image</string>
     <string name="error_no_image_selected">No image selected or file corrupted</string>
     <string name="title_permission">Permission</string>
-    <string name="message_permission">To save processed image, we need access to your external storage</string>
+    <string name="permission_write">To save processed image, we need access to your external storage</string>
+    <string name="permission_camera">To be able to capture photos, we need to access your camera</string>
     <string name="action_ok" translatable="false">OK</string>
     <string name="error_permission">Can\'t process image without storage permission</string>
     <string name="title_error">Error</string>
@@ -38,6 +39,8 @@
     <string name="settings_api_key_message">Only change your API key when you know you need to.
         Restart the app for the change to take effect.</string>
     <string name="settings_folder_mode">Photo picker mode</string>
+    <string name="settings_free_calls">Free calls remaining</string>
+    <string name="settings_free_calls_default">Waiting to be authorized</string>
     <string name="summary_folder_mode_on">Categorize photos by folders as the same hierarchy in memory</string>
     <string name="summary_folder_mode_off">Display all photos at once</string>
     <string name="bt_short_cut">GET API KEY FROM REMOVE.BG</string>

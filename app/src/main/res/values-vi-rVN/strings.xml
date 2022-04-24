@@ -8,7 +8,8 @@
     <string name="message_tap_to_choose_image">Ấn để chọn ảnh</string>
     <string name="error_no_image_selected">Ảnh chưa được chọn hoặc tập tin bị lỗi</string>
     <string name="title_permission">Sự cho phép</string>
-    <string name="message_permission">Để lưu ảnh đã qua xử lý, chúng tôi cần truy cập bộ nhớ ngoài của bạn</string>
+    <string name="permission_write">Để lưu ảnh đã qua xử lý, chúng tôi cần truy cập bộ nhớ ngoài của bạn</string>
+    <string name="permission_camera">Để có thể chụp ảnh, chúng tôi cần truy cập máy ảnh của bạn</string>
     <string name="error_permission">Không thể xử lý ảnh nếu không được cho phép truy cập bộ nhớ</string>
     <string name="title_error">Lỗi</string>
     <string name="status_compressing">Đang nén…</string>
@@ -37,6 +38,8 @@
     <string name="settings_api_key_message">Chỉ thay đổi API key nếu bạn biết rõ bạn cần thay đổi.
         Hãy khởi động lại ứng dụng để API key mới có hiệu lực.</string>
     <string name="settings_folder_mode">Chế độ chọn ảnh</string>
+    <string name="settings_free_calls">Số lần xóa nền miễn phí còn lại</string>
+    <string name="settings_free_calls_default">Đang chờ được xác thực</string>
     <string name="summary_folder_mode_on">Phân loại ảnh theo cấu thư mục như trong bộ nhớ</string>
     <string name="summary_folder_mode_off">Hiển thị tất cả ảnh cùng lúc</string>
     <string name="bt_short_cut">LẤY API KEY TỪ REMOVE.BG</string>

@@ -2,27 +2,23 @@ package com.congtam.backgroundremover.backend
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import androidx.preference.EditTextPreference
-import com.congtam.backgroundremover.SettingsFragment
+import androidx.fragment.app.Fragment
+import androidx.preference.PreferenceManager
+import com.congtam.backgroundremover.backend.utils.AccountData
 import com.congtam.backgroundremover.backend.utils.CountingFileRequestBody
 import com.congtam.backgroundremover.backend.utils.ErrorResponse
 import com.google.gson.GsonBuilder
 import okhttp3.*
 import java.io.File
 import java.io.IOException
-import android.R
-import android.app.PendingIntent.getActivity
-import android.content.Context
-import android.content.SharedPreferences
-import android.util.Log
-import androidx.core.content.ContentProviderCompat.requireContext
-import androidx.preference.PreferenceManager
 
 
 object RemoveBg {
-    private const val API_ENDPOINT = "https://api.remove.bg/v1.0/removebg"
+    private const val BASE_URL = "https://api.remove.bg/v1.0"
+    private const val REMOVE_BG = "/removebg"
+    private const val ACCOUNT = "/account"
     private var apiKey: String? = null
-
+    private lateinit var parent: Fragment
     private val okHttpClient by lazy {
         OkHttpClient.Builder()
             .build()
@@ -35,9 +31,11 @@ object RemoveBg {
     /**
      * To initialize the apikey. Should be called before calling from method.
      */
-    fun init(apiKey: String) {
+    fun init(apiKey: String, parent: Fragment) {
         RemoveBg.apiKey = apiKey
+        this.parent = parent
     }
+
 
     /**
      * To remove background from the given image file.
@@ -66,7 +64,7 @@ object RemoveBg {
 
         // new request
         val request = Request.Builder()
-            .url(API_ENDPOINT)
+            .url(BASE_URL + REMOVE_BG)
             .addHeader("X-Api-Key", apiKey!!)
             .post(body)
             .build()
@@ -82,6 +80,24 @@ object RemoveBg {
                         val bmp = BitmapFactory.decodeStream(bytesStream)
                         callback.onSuccess(bmp)
                     }
+                    val request = Request.Builder()
+                        .url(BASE_URL + ACCOUNT)
+                        .addHeader("X-Api-Key", apiKey!!)
+                        .get()
+                        .build()
+                    okHttpClient.newCall(request).enqueue(object: Callback {
+                        override fun onFailure(call: Call, e: IOException) {
+
+                        }
+
+                        override fun onResponse(call: Call, response: Response) {
+                            val jsonResp = response.body()!!.string()
+                            val responseObject = gson.fromJson(jsonResp, AccountData::class.java)
+                            PreferenceManager.getDefaultSharedPreferences(parent.requireContext()).edit()
+                                .putString("freeCalls",responseObject.data.attributes.api.freeCalls.toString()).apply()
+                        }
+
+                    })
                 } else {
                     // error, parsing error.
                     val jsonResp = response.body()!!.string()

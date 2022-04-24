@@ -5,32 +5,22 @@ import android.app.Dialog
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
-import android.content.pm.PackageManager
+import android.content.SharedPreferences
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.drawable.Drawable
-import android.media.Image
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
-import android.util.Log
 import android.util.TypedValue
 import android.view.*
-import android.widget.ImageView
-import android.widget.ProgressBar
-import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.AppCompatButton
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
-import androidx.preference.EditTextPreference
 import androidx.preference.PreferenceManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
@@ -56,9 +46,10 @@ import java.util.*
 class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
-
+    private var contextt: Context? = null
+    private lateinit var sharedPreferences: SharedPreferences
     companion object {
-        var folderMode: Boolean = true
+        var folderMode: Boolean = false
     }
 
     private val rootPath =
@@ -72,157 +63,148 @@ class HomeFragment : Fragment() {
     private lateinit var photoURI: Uri
     private var inputImage: File? = null
     private var outputImage: File? = null
-    private val cameraPermissionCode = 100
-    private val storagePermissionCode = 101
+//    private val cameraPermissionCode = 100
+//    private val storagePermissionCode = 101
     private val actionCapturePhoto = 200
     private val authority = "com.congtam.backgroundremover.provider"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
-        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
-        sharedPreferences.getString("apiKey",null)?.let { RemoveBg.init(it) }
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.bChooseImage.setOnClickListener {
-            onChooseImageClicked()
-        }
+        binding.apply {
+            bChooseImage.setOnClickListener {
+                onChooseImageClicked()
+            }
 
-        binding.iChooseImage.iChooseImage.setOnClickListener {
-            onChooseImageClicked()
-        }
+            iChooseImage.iChooseImage.setOnClickListener {
+                onChooseImageClicked()
+            }
 
-        binding.bCaptureImage.setOnClickListener {
-            val cameraPermission =
-                ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.CAMERA)
-            val storagePermission =
-                ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE)
-            when {
-                cameraPermission != PackageManager.PERMISSION_GRANTED -> ActivityCompat.requestPermissions(
-                    requireActivity(), arrayOf(Manifest.permission.CAMERA), cameraPermissionCode
-                )
-                storagePermission != PackageManager.PERMISSION_GRANTED -> ActivityCompat.requestPermissions(
-                    requireActivity(), arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), storagePermissionCode
-                )
-                else -> {
-                    capturePhoto()
+            bCaptureImage.setOnClickListener {
+                checkPermission(Manifest.permission.CAMERA, R.string.permission_camera) {
+                    checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, R.string.permission_write) {
+                        capturePhoto()
+                    }
                 }
             }
-        }
 
-        binding.bProcess.setOnClickListener{
-            if (inputImage != null) {
-                // Check permission
-                checkPermission {
-                    // permission granted
-                    if (inputImage!!.name.contains("-no-bg").not()) {
-                        binding.tvProgress.setText(R.string.status_compressing)
-                        // compress the unprocessed inputImage now
-                        compressImage(inputImage!!) { bitmap ->
-                            saveImage(
-                                "${SimpleDateFormat("yyyy-MM-dd HH-mm-ss-SSS").format(Date())}" +
-                                        "-compressed", bitmap
-                            ) { compressedImage ->
-                                val compressedImageSize = compressedImage.length() / 1024
-                                val originalImageSize = inputImage!!.length() / 1024
+            bProcess.setOnClickListener{
+                if (inputImage != null) {
+                    // Check permission
+                    checkPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, R.string.permission_write) {
+                        // permission granted
+                        if (inputImage!!.name.contains("-no-bg").not()) {
+                            binding.tvProgress.setText(R.string.status_compressing)
+                            // compress the unprocessed inputImage now
+                            compressImage(inputImage!!) { bitmap ->
+                                saveImage(
+                                    "${SimpleDateFormat("yyyy-MM-dd HH-mm-ss-SSS").format(Date())}" +
+                                            "-compressed", bitmap
+                                ) { compressedImage ->
+                                    val compressedImageSize = compressedImage.length() / 1024
+                                    val originalImageSize = inputImage!!.length() / 1024
 
-                                binding.pbProgress.visibility = View.VISIBLE
-                                binding.tvProgress.visibility = View.VISIBLE
+                                    binding.pbProgress.visibility = View.VISIBLE
+                                    binding.tvProgress.visibility = View.VISIBLE
 
-                                binding.tvProgress.setText(R.string.status_uploading)
-                                binding.pbProgress.progress = 0
+                                    binding.tvProgress.setText(R.string.status_uploading)
+                                    binding.pbProgress.progress = 0
 
-                                val finalImage =
-                                    if (compressedImageSize < originalImageSize) compressedImage else inputImage!!
-                                appendInputDetails(
-                                    resources.getString(
-                                        R.string.compressed_size,
-                                        finalImage.length() / 1024
+                                    val finalImage =
+                                        if (compressedImageSize < originalImageSize) compressedImage else inputImage!!
+                                    appendInputDetails(
+                                        resources.getString(
+                                            R.string.compressed_size,
+                                            finalImage.length() / 1024
+                                        )
                                     )
-                                )
-                                // inputImage saved, now upload
-                                try {
-                                    //try-catch to see if RemoveBg API key has been initialized
-                                    RemoveBg.from(finalImage, object : RemoveBg.RemoveBgCallback {
-                                        override fun onProcessing() {
-                                            requireActivity().runOnUiThread {
-                                                binding.tvProgress.setText(R.string.status_processing)
-                                            }
-                                        }
-
-                                        override fun onUploadProgress(progress: Float) {
-                                            requireActivity().runOnUiThread {
-                                                binding.tvProgress.text = "Uploading ${progress.toInt()}%"
-                                                binding.pbProgress.progress = progress.toInt()
-                                            }
-                                        }
-
-                                        override fun onError(errors: List<ErrorResponse.Error>) {
-                                            requireActivity().runOnUiThread {
-                                                val errorBuilder = StringBuilder()
-                                                errors.forEach {
-                                                    errorBuilder.append("${it.title} : ${it.detail} : ${it.code}\n")
-                                                }
-                                                showErrorAlert(errorBuilder.toString())
-                                                binding.tvProgress.text = errorBuilder.toString()
-                                                binding.pbProgress.visibility = View.INVISIBLE
-                                            }
-                                        }
-
-                                        override fun onSuccess(bitmap: Bitmap) {
-                                            requireActivity().runOnUiThread {
-                                                binding.ivOutput.setImageBitmap(bitmap)
-                                                binding.ivOutput.visibility = View.VISIBLE
-                                                binding.bProcess.visibility = View.INVISIBLE
-                                                binding.tvProgress.visibility = View.INVISIBLE
-                                                binding.pbProgress.visibility = View.INVISIBLE
-                                                binding.tvInstruction.visibility = View.INVISIBLE
-                                                val name = inputImage!!.name.substring(
-                                                    0,
-                                                    inputImage!!.name.lastIndexOf(".")
-                                                ) + "-no-bg"
-                                                // Save output image
-                                                saveImage(name, bitmap) {
-                                                    outputImage = it
-                                                    toast(resources.getString(R.string.img_saved, name))
+                                    // inputImage saved, now upload
+                                    try {
+                                        //try-catch to see if RemoveBg API key has been initialized
+                                        RemoveBg.from(finalImage, object : RemoveBg.RemoveBgCallback {
+                                            override fun onProcessing() {
+                                                requireActivity().runOnUiThread {
+                                                    binding.tvProgress.setText(R.string.status_processing)
                                                 }
                                             }
-                                        }
-                                    })
-                                } catch(e : IllegalArgumentException) {
-                                    toast(R.string.no_api_key)
+
+                                            override fun onUploadProgress(progress: Float) {
+                                                requireActivity().runOnUiThread {
+                                                    binding.tvProgress.text = "Uploading ${progress.toInt()}%"
+                                                    binding.pbProgress.progress = progress.toInt()
+                                                }
+                                            }
+
+                                            override fun onError(errors: List<ErrorResponse.Error>) {
+                                                requireActivity().runOnUiThread {
+                                                    val errorBuilder = StringBuilder()
+                                                    errors.forEach {
+                                                        errorBuilder.append("${it.title} : ${it.detail} : ${it.code}\n")
+                                                    }
+                                                    showErrorAlert(errorBuilder.toString())
+                                                    binding.tvProgress.text = errorBuilder.toString()
+                                                    binding.pbProgress.visibility = View.INVISIBLE
+                                                }
+                                            }
+
+                                            override fun onSuccess(bitmap: Bitmap) {
+                                                requireActivity().runOnUiThread {
+                                                    binding.ivOutput.setImageBitmap(bitmap)
+                                                    binding.ivOutput.visibility = View.VISIBLE
+                                                    binding.bProcess.visibility = View.INVISIBLE
+                                                    binding.tvProgress.visibility = View.INVISIBLE
+                                                    binding.pbProgress.visibility = View.INVISIBLE
+                                                    binding.tvInstruction.visibility = View.INVISIBLE
+                                                    val name = inputImage!!.name.substring(
+                                                        0,
+                                                        inputImage!!.name.lastIndexOf(".")
+                                                    ) + "-no-bg"
+                                                    // Save output image
+                                                    saveImage(name, bitmap) {
+                                                        outputImage = it
+                                                        toast(resources.getString(R.string.img_saved, name))
+                                                    }
+                                                }
+                                            }
+                                        })
+                                    } catch(e : IllegalArgumentException) {
+                                        toast(R.string.no_api_key)
+                                    }
                                 }
                             }
                         }
+                        // If image has "-no-bg" in its name, meaning its background had been removed
+                        else toastLong(getString(R.string.tv_removed))
                     }
-                    // If image has "-no-bg" in its name, meaning its background had been removed
-                    else toastLong(getString(R.string.tv_removed))
+                } // If input image is null
+                else toast(R.string.error_no_image_selected)
+            }
+
+            ivInput.setOnClickListener {
+                showActionAlert(requireContext(), inputImage!!)
+            }
+
+            ivOutput.setOnClickListener {
+                try {
+                    showActionAlert(requireContext(), outputImage!!)
+                } catch (e: NullPointerException) {
+                    toast(R.string.error_output_not_saved)
                 }
-            } // If input image is null
-            else toast(R.string.error_no_image_selected)
-        }
-
-        binding.ivInput.setOnClickListener {
-            showActionAlert(requireContext(), inputImage!!)
-        }
-
-        binding.ivOutput.setOnClickListener {
-            try {
-                showActionAlert(requireContext(), outputImage!!)
-            } catch (e: NullPointerException) {
-                toast(R.string.error_output_not_saved)
             }
         }
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater){
@@ -232,6 +214,17 @@ class HomeFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         findNavController().navigate(R.id.action_homeFragment_to_settingsFragment)
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        this.contextt = context
+        initPreferences()
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        this.contextt = null
     }
 
     override fun onDestroyView() {
@@ -285,11 +278,35 @@ class HomeFragment : Fragment() {
         return File(cameraDir, "${timeStamp}.jpg")
     }
 
-    private fun checkPermission(onPermissionChecked: () -> Unit) {
+//    private fun checkPermission(onPermissionChecked: () -> Unit) {
+//
+//        val deniedListener = DialogOnDeniedPermissionListener.Builder.withContext(requireContext())
+//            .withTitle(R.string.title_permission)
+//            .withMessage(R.string.message_permission)
+//            .withButtonText(R.string.action_ok)
+//            .build()
+//
+//        val permissionListener = object : BasePermissionListener() {
+//            override fun onPermissionGranted(response: PermissionGrantedResponse?) {
+//                onPermissionChecked()
+//            }
+//
+//            override fun onPermissionDenied(response: PermissionDeniedResponse?) {
+//                toast(R.string.error_permission)
+//            }
+//        }
+//
+//        val listener = CompositePermissionListener(permissionListener, deniedListener)
+//        Dexter.withActivity(requireActivity())
+//            .withPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+//            .withListener(listener)
+//            .check()
+//    }
+    private fun checkPermission(permission: String, messageRes: Int, onPermissionChecked: () -> Unit) {
 
         val deniedListener = DialogOnDeniedPermissionListener.Builder.withContext(requireContext())
             .withTitle(R.string.title_permission)
-            .withMessage(R.string.message_permission)
+            .withMessage(messageRes)
             .withButtonText(R.string.action_ok)
             .build()
 
@@ -304,9 +321,8 @@ class HomeFragment : Fragment() {
         }
 
         val listener = CompositePermissionListener(permissionListener, deniedListener)
-
         Dexter.withActivity(requireActivity())
-            .withPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+            .withPermission(permission)
             .withListener(listener)
             .check()
     }
@@ -490,4 +506,11 @@ class HomeFragment : Fragment() {
         val color = typedValue.resourceId
         return resources.getColor(color)
     }
+
+    private fun initPreferences() {
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(requireContext())
+        sharedPreferences.getString("apiKey",null)?.let { RemoveBg.init(it,this) }
+        sharedPreferences.getBoolean("folderMode", false).let { folderMode = it }
+    }
+
 }
