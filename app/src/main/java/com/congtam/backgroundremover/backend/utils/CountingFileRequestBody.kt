@@ -29,7 +29,7 @@ class CountingFileRequestBody(
         try {
             source = Okio.source(file)
             var total: Long = 0
-            var read: Long = -1
+            var read: Long
             while (run {
                     read = source!!.read(
                         sink.buffer(),

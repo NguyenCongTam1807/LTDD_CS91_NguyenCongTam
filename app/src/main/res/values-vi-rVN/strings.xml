@@ -24,7 +24,7 @@
     <string name="settings">Cài đặt</string>
     <string name="bt_view">Xem</string>
     <string name="bt_share">Chia sẻ</string>
-    <string name="bt_ok">Hủy</string>
+    <string name="bt_cancel">Hủy</string>
     <string name="tv_removed">Ảnh đã được tách nền, không cần xử lý nữa</string>
     <string name="tv_compressed">Ảnh đã được nén, chuyển đến bước tách nền</string>
     <string name="no_api_key">Bạn phải nhập API key hợp lệ ở màn hình cài đặt trước khi thực hiện xử lý ảnh</string>

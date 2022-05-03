@@ -138,6 +138,7 @@ class HomeFragment : Fragment() {
                                                 requireActivity().runOnUiThread {
                                                     binding.tvProgress.setText(R.string.status_processing)
                                                 }
+                                                binding.tvProgress.setText(R.string.status_processing)
                                             }
 
                                             override fun onUploadProgress(progress: Float) {
@@ -193,12 +194,12 @@ class HomeFragment : Fragment() {
             }
 
             ivInput.setOnClickListener {
-                showActionAlert(requireContext(), inputImage!!)
+                showActionAlert(inputImage!!)
             }
 
             ivOutput.setOnClickListener {
                 try {
-                    showActionAlert(requireContext(), outputImage!!)
+                    showActionAlert(outputImage!!)
                 } catch (e: NullPointerException) {
                     toast(R.string.error_output_not_saved)
                 }
@@ -278,30 +279,6 @@ class HomeFragment : Fragment() {
         return File(cameraDir, "${timeStamp}.jpg")
     }
 
-//    private fun checkPermission(onPermissionChecked: () -> Unit) {
-//
-//        val deniedListener = DialogOnDeniedPermissionListener.Builder.withContext(requireContext())
-//            .withTitle(R.string.title_permission)
-//            .withMessage(R.string.message_permission)
-//            .withButtonText(R.string.action_ok)
-//            .build()
-//
-//        val permissionListener = object : BasePermissionListener() {
-//            override fun onPermissionGranted(response: PermissionGrantedResponse?) {
-//                onPermissionChecked()
-//            }
-//
-//            override fun onPermissionDenied(response: PermissionDeniedResponse?) {
-//                toast(R.string.error_permission)
-//            }
-//        }
-//
-//        val listener = CompositePermissionListener(permissionListener, deniedListener)
-//        Dexter.withActivity(requireActivity())
-//            .withPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-//            .withListener(listener)
-//            .check()
-//    }
     private fun checkPermission(permission: String, messageRes: Int, onPermissionChecked: () -> Unit) {
 
         val deniedListener = DialogOnDeniedPermissionListener.Builder.withContext(requireContext())
@@ -422,8 +399,8 @@ class HomeFragment : Fragment() {
             .show()
     }
 
-    private fun showActionAlert(context: Context, image: File) {
-        val alert = androidx.appcompat.app.AlertDialog.Builder(context).create()
+    private fun showActionAlert(image: File) {
+        val alert = androidx.appcompat.app.AlertDialog.Builder(this.requireActivity()).create()
         alert.setTitle("Choose action")
         alert.setButton(
             Dialog.BUTTON_POSITIVE, getString(R.string.bt_view)
@@ -431,8 +408,8 @@ class HomeFragment : Fragment() {
             viewImage(image)
         }
         alert.setButton(
-            Dialog.BUTTON_NEUTRAL, getString(R.string.bt_ok)
-        ) { _, _ ->
+            Dialog.BUTTON_NEUTRAL, getString(R.string.bt_cancel)
+        ) { _, _ -> sendImageToImprove(image)
         }
         alert.setButton(
             Dialog.BUTTON_NEGATIVE, getString(R.string.bt_share)
@@ -458,8 +435,8 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun shareImage(inputImage: File) {
-        val bitmap = BitmapFactory.decodeFile(inputImage.absolutePath)
+    private fun shareImage(image: File) {
+        val bitmap = BitmapFactory.decodeFile(image.absolutePath)
         val sharedImageDir = File(projectDir, "shared")
         if (!sharedImageDir.exists())
             sharedImageDir.mkdirs() // create the directory to contain the lone share file
@@ -478,6 +455,10 @@ class HomeFragment : Fragment() {
             shareIntent.putExtra(Intent.EXTRA_STREAM, contentUri)
             startActivity(Intent.createChooser(shareIntent, "Share via"))
         }
+    }
+
+    private fun sendImageToImprove(image: File) {
+
     }
 
     private fun appendInputDetails(details: String) {

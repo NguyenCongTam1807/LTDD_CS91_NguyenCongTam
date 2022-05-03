@@ -59,7 +59,7 @@ object RemoveBg {
         val body = MultipartBody.Builder()
             .setType(MultipartBody.FORM)
             .addFormDataPart("size", "auto")
-            .addFormDataPart("image_file", "image_file", filePart)
+            .addFormDataPart("image_file", file.name, filePart)
             .build()
 
         // new request
@@ -86,9 +86,7 @@ object RemoveBg {
                         .get()
                         .build()
                     okHttpClient.newCall(request).enqueue(object: Callback {
-                        override fun onFailure(call: Call, e: IOException) {
-
-                        }
+                        override fun onFailure(call: Call, e: IOException) {}
 
                         override fun onResponse(call: Call, response: Response) {
                             val jsonResp = response.body()!!.string()
