@@ -36,8 +36,7 @@
     <string name="summary_theme_on">Dark</string>
     <string name="settings_api_key">Current API key</string>
     <string name="settings_api_key_title">WARNING!</string>
-    <string name="settings_api_key_message">Only change your API key when you know you need to.
-        Restart the app for the change to take effect.</string>
+    <string name="settings_api_key_message">Only change your API key when you know you need to.</string>
     <string name="settings_folder_mode">Photo picker mode</string>
     <string name="settings_free_calls">Free calls remaining</string>
     <string name="settings_free_calls_default">Waiting to be authorized</string>

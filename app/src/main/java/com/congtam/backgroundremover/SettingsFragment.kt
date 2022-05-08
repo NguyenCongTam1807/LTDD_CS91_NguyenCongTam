@@ -13,6 +13,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.root_preferences, rootKey)
 
+        this.findPreference<EditTextPreference>("apiKey")?.context?.setTheme(R.style.Theme_BackgroundRemover_Settings)
         this.findPreference<EditTextPreference>("apiKey")?.setOnPreferenceChangeListener { _, newValue ->
             RemoveBg.init(newValue.toString(), HomeFragment())
             true

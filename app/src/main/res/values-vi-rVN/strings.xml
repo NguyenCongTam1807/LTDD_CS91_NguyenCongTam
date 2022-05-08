@@ -35,8 +35,7 @@
     <string name="summary_theme_on">Tối</string>
     <string name="settings_api_key">API key hiện tại</string>
     <string name="settings_api_key_title">CẢNH BÁO!</string>
-    <string name="settings_api_key_message">Chỉ thay đổi API key nếu bạn biết rõ bạn cần thay đổi.
-        Hãy khởi động lại ứng dụng để API key mới có hiệu lực.</string>
+    <string name="settings_api_key_message">Chỉ thay đổi API key nếu bạn biết rõ bạn cần phải làm vậy.</string>
     <string name="settings_folder_mode">Chế độ chọn ảnh</string>
     <string name="settings_free_calls">Số lần xóa nền miễn phí còn lại</string>
     <string name="settings_free_calls_default">Đang chờ được xác thực</string>

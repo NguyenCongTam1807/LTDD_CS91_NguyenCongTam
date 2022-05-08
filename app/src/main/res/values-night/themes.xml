@@ -28,8 +28,18 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
-    <style name="CustomAlertDialog" parent="Theme.AppCompat.DayNight.Dialog">
-        <item name="android:colorForeground">?attr/colorAccent</item>
-        <item name="actionMenuTextColor">?attr/colorAccent</item>
+    <style name="NegativeButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="android:textColor">#9effd8</item>
+    </style>
+
+    <style name="PositiveButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="android:textColor">#9effd8</item>
+    </style>
+    <style name="CustomAlertDialog" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+        <item name="buttonBarNegativeButtonStyle">@style/NegativeButtonStyle</item>
+        <item name="buttonBarPositiveButtonStyle">@style/PositiveButtonStyle</item>
+    </style>
+    <style name="Theme.BackgroundRemover.Settings">
+        <item name="alertDialogStyle">@style/CustomAlertDialog</item>
     </style>
 </resources>

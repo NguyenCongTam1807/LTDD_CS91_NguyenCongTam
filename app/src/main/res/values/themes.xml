@@ -27,8 +27,13 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
-    <style name="CustomAlertDialog" parent="Theme.AppCompat.DayNight.Dialog">
-        <item name="android:colorForeground">?attr/colorAccent</item>
-        <item name="actionMenuTextColor">?attr/colorAccent</item>
+    <style name="CustomAlertDialog" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+        <!--        <item name="android:colorForeground">?attr/colorAccent</item>-->
+        <!--        <item name="actionMenuTextColor">?attr/colorAccent</item>-->
+        <item name="android:textColor">#fdd835</item>
+    </style>
+    <style name="Theme.BackgroundRemover.Settings">
+        <!-- This will change the opening dialogs for EditTextPreference -->
+        <item name="alertDialogStyle">@style/CustomAlertDialog</item>
     </style>
 </resources>
