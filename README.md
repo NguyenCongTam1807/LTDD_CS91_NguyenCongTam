@@ -1,1 +1,1 @@
-This version of background remover is built using a more modern approach than the ver-1 one, though the core use cases still untouched
+An Android app taking advantage of remove.bg API to remove backgrounds from image and share with others. User can load image from memory or take one directly from the camera.
